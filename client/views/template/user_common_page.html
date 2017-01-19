@@ -1,0 +1,13 @@
+{% extends './common_page.html' %}
+
+{% block title %}{{ super() }}{% endblock %}
+
+{% block head_import_style %}
+{{ super() }}
+<!--<link rel="stylesheet" href="{{setting.RES_CDN_DOMAIN}}/css/form.css">-->
+{% endblock %}
+
+{% block head_import_script %}
+{{ super() }}
+<!--<script type="text/javascript" src="{{setting.RES_CDN_DOMAIN}}/js/socket.io.js"></script>-->
+{% endblock %}

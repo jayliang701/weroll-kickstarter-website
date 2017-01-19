@@ -1,0 +1,35 @@
+{% extends 'template/user_common_page.html' %}
+
+{% block head_custom_style %}
+<style>
+
+    .info { margin-top: 80px; width: 100%; text-align: center; }
+    .info > p { padding: 8px; font-size: 18px; font-family: Robot,Verdana,'Microsoft Yahei',sans-serif; }
+    .info .btn { font-size: 18px; }
+
+</style>
+{% endblock %}
+
+{% block head_custom_script %}
+<script>
+
+    function $inited() {
+
+    }
+
+</script>
+{% endblock %}
+
+{% block top_nav %}
+{% endblock %}
+
+{% block content %}
+<div class="info">
+    <p>抱歉，您访问的页面出错了！</p>
+    <p>{{err}}</p>
+    <p>
+        <br>
+        <a class="btn btn-blue" onclick="goPage('/')">返回首页</a>
+    </p>
+</div>
+{% endblock %}

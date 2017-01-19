@@ -1,0 +1,23 @@
+{% extends 'template/user_common_page.html' %}
+
+{% block head_custom_style %}
+{{ super() }}
+<style>
+    div.main { padding: 10px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h1>Index</h1>
+    <h2 style="font-weight: normal;">This is a website project</h2>
+</div>
+
+{% endblock %}
+
+{% block footer_custom_script %}
+{{ super() }}
+<script>
+
+</script>
+{% endblock %}

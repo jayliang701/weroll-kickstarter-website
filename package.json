@@ -1,0 +1,18 @@
+{
+  "name": "weroll-app-website",
+  "version": "1.0.0",
+  "description": "The website example of weroll application.",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "weroll": "^1.0.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jay Liang",
+  "license": "MIT"
+}

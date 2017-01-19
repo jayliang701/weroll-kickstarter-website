@@ -1,0 +1,23 @@
+{% extends 'template/user_common_page.html' %}
+
+{% block head_custom_style %}
+{{ super() }}
+<style>
+    div.main { padding: 10px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h1>Profile Page</h1>
+    <br>
+    <p>id: {{user.id}}</p>
+    <p>username: {{user.username}}</p>
+    <p>type: {{user.type}}</p>
+</div>
+
+{% endblock %}
+
+{% block footer_custom_script %}
+{{ super() }}
+{% endblock %}

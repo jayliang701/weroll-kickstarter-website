@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{setting.SITE_NAME}}{% endblock %}</title>
+    {% block head_meta %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    {% endblock %}
+    {% block head_import_style %}
+    <link rel="stylesheet" href="{{setting.RES_CDN_DOMAIN}}/css/main.css" type="text/css">
+    {% endblock %}
+
+    {% block head_const_script %}
+    <script>
+
+        var ENV = '{{setting.ENV}}';
+
+        var SITE_DOMAIN = '{{setting.SITE_DOMAIN}}';
+
+        var RES_CDN_DOMAIN = '{{setting.RES_CDN_DOMAIN}}';
+
+        var FLASH_CDN_DOMAIN = RES_CDN_DOMAIN + '/flash';
+
+        var OSS_PUBLIC_DOMAIN = '{{setting.upload.public_domain}}';
+        var OSS_PRIVATE_DOMAIN = '{{setting.upload.private_domain}}';
+
+        var UPLOAD_GATEWAY = '{{setting.upload.url}}';
+
+        var API_GATEWAY = '{{setting.API_GATEWAY}}';
+
+        var COOKIE_PATH = '{{setting.COOKIE_PATH}}';
+
+        var $time = new Date();
+        $time._localTime = $time.getTime();
+        $time.setTime({{now}});
+
+        $time.getTime = function() {
+            return TIMESTAMP + (Date.now() - $time._localTime);
+        }
+
+        var $user = {{user|json}};
+
+        $user._listenerList = {};
+        $user.notify = function(event, params) {
+            if (!this._listenerList[event]) return;
+            var instance = this;
+            this._listenerList[event].forEach(function(handler) {
+                if (handler) handler({ type:event, target:instance, params:params });
+            })
+        };
+        $user.registerListener = function(event, handler) {
+            if (!this._listenerList[event]) this._listenerList[event] = [];
+            this._listenerList[event].push(handler);
+        };
+        $user.disposeListener = function(event, handler) {
+            if (!this._listenerList[event]) return;
+            this._listenerList[event].splice(this._listenerList[event].indexOf(handler), 1);
+        };
+
+        window.$callAPILoading = function(flag) {
+            var pm = PopupManager;
+            if (window.parent) {
+                pm = window.parent.PopupManager;
+            }
+            if (!pm) return;
+            if (flag) {
+                pm.show('', { noCoverClose:true, id:'fullScreenLoading' })
+            } else {
+                pm.close('fullScreenLoading');
+            }
+        }
+
+    </script>
+    {% endblock %}
+
+    {% block head_import_hack_script %}
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{{setting.RES_CDN_DOMAIN}}/js/html5shiv.js"></script>
+    <script type="text/javascript" src="{{setting.RES_CDN_DOMAIN}}/js/respond.min.js"></script>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="{{setting.RES_CDN_DOMAIN}}/js/json3.min.js"></script>
+    <![endif]-->
+    {% endblock %}
+    {% block head_import_frameworks_script %}
+    <script type="text/javascript" src="{{setting.RES_CDN_DOMAIN}}/js/jquery-1.11.3.min.js"></script>
+
+    {% endblock %}
+    {% block head_import_script %}
+    <script type="text/javascript" src="{{setting.RES_CDN_DOMAIN}}/js/jquery-extends.js"></script>
+    <script type="text/javascript" src="{{setting.RES_CDN_DOMAIN}}/js/common.js"></script>
+    {% endblock %}
+
+    {% block head_custom_style %}
+    {% endblock %}
+
+    {% block head_custom_script %}
+    {% endblock %}
+</head>
+
+<body >
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block popup %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block hides %}
+{% endblock %}
+
+{% block footer_import_style %}
+{% endblock %}
+
+{% block footer_import_script %}
+{% endblock %}
+
+{% block footer_custom_style %}
+{% endblock %}
+
+{% block footer_custom_script %}
+{% endblock %}
+</body>
+</html>
