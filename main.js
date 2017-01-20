@@ -5,10 +5,16 @@ var App = require("weroll/App");
 var app = new App();
 
 var Setting = global.SETTING;
+var Model = require("weroll/model/Model");
 
 app.addTask(function(cb) {
-    var Model = require("weroll/model/Model");
     Model.init(Setting.model, function(err) {
+        cb(err);
+    });
+});
+app.addTask(function(cb) {
+    var DAOFactory = require("weroll/dao/DAOFactory");
+    DAOFactory.init(Model.getDBByName(), function(err) {
         cb(err);
     });
 });

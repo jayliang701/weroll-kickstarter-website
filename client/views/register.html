@@ -1,0 +1,34 @@
+{% extends 'template/user_common_page.html' %}
+
+{% block head_custom_style %}
+{{ super() }}
+<style>
+    div.main { padding: 10px; }
+    input, button, select { padding:5px; }
+    form > div { padding:5px; }
+    input[type=text], input[type=password] { width:270px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <h1>Register Page</h1>
+    <br>
+    <form method="post" action="register">
+        <div><label>username: </label><input name="username" type="text" placeholder="username" required></div>
+        <div><input name="nickname" type="text" placeholder="nickname" required></div>
+        <div><input name="email" type="text" placeholder="email"></div>
+        <div><input name="phone" type="text" placeholder="phone"></div>
+        <div><input name="pwd" type="password" required></div>
+        <div><input type="submit" value="Register"></div>
+    </form>
+    <div>
+        <p id="info">{{data.err}}</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer_custom_script %}
+{{ super() }}
+{% endblock %}
