@@ -5,6 +5,7 @@
 <style>
     div.main { padding: 10px; }
     input, button, select { padding:5px; }
+    #info { color:red; }
 </style>
 {% endblock %}
 
@@ -20,6 +21,10 @@
     <div>
         <p id="info">{{data.err}}</p>
     </div>
+    <br>
+    <p>
+        <span>No account yet? </span><a href="register">Register</a>
+    </p>
 </div>
 
 {% endblock %}

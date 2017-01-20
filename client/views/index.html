@@ -10,7 +10,30 @@
 {% block content %}
 <div class="main">
     <h1>Index</h1>
-    <h2 style="font-weight: normal;">This is a website project</h2>
+    <h2 style="font-weight: normal;">This is a website project.</h2>
+    <br>
+    {% if user.isLogined %}
+    <p>Welcome! {{user.nickname}}</p>
+    <br>
+    <h3>Your Profile:</h3>
+    <p>id: {{user.id}}</p>
+    <p>type: {{user.type}}</p>
+    <p>username: {{user.username}}</p>
+    <p>nickname: {{user.nickname}}</p>
+    <p>email: {{user.email}}</p>
+    <p>phone: {{user.phone}}</p>
+    <br>
+    <p>
+        <a href="logout">Logout</a>
+    </p>
+    {% else %}
+    <p>
+        <a href="login">Register</a>
+    </p>
+    <p>
+        <span>Already has an account? </span><a href="login">Login</a>
+    </p>
+    {% endif %}
 </div>
 
 {% endblock %}

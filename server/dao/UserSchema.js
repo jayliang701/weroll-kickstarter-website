@@ -72,7 +72,7 @@ module.exports = function() {
                 opts = { phone : passport.phone };
             }
 
-            var fields = "_id pwd username email phone nickname head status lastLoginTime";
+            var fields = "_id pwd username nickname email phone head type status lastLoginTime";
             ins.findOne(opts).select(fields).exec(function(err, doc) {
                 if (doc && doc.get("pwd") == md5(doc._id + PASSWORD_SALT + passport.pwd)){
                     callBack ? callBack(null, doc) : resolve(doc);
