@@ -5,12 +5,13 @@
 var Setting = global.SETTING;
 var Session = require("weroll/model/Session");
 var Utils = require("weroll/utils/Utils");
+var CODES = require("weroll/ErrorCodes");
 
-function renderLoginPage(req, res, output, user) {
+async function renderLoginPage(req, res, output, user) {
     output({ });
 }
 
-function processLogin(req, res, output) {
+async function processLogin(req, res, output) {
     var user;
 
     var q = [];
@@ -49,19 +50,57 @@ function processLogin(req, res, output) {
             output({ err:"username or password is wrong." });
         } else {
             //redirect
-            res.goPage("/profile");
+            res.goPage("/index");
         }
     });
 }
 
-function renderRegisterPage(req, res, output, user) {
+async function renderRegisterPage(req, res, output, user) {
     output({ });
+}
+
+async function processRegister(req, res, output) {
+    var doc = new User();
+
+    try {
+        var username = req.body.username;
+        doc.set("username", username);
+
+        var pwd = req.body.pwd;
+        if (!pwd || pwd.length < 6) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid password. the length of password should be >= 6."));
+        else doc.set("pwd", pwd);
+
+        var email = req.body.email;
+        if (phone && !Utils.checkEmailFormat(email)) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid email"));
+        else doc.set("email", email);
+
+        var phone = req.body.phone;
+        if (phone && !Utils.cnCellPhoneCheck(phone)) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid phone"));
+        else doc.set("phone", phone);
+
+        doc = await doc.save();
+    } catch (err) {
+        return output({ err:err });
+    }
+    try {
+        var sess = await Session.getSharedInstance().save(doc.toObject());
+        //set cookies
+        var option = { path: Setting.session.cookiePath, expires: new Date(Date.now() + Setting.session.cookieExpireTime) };
+        res.cookie("userid", sess.userid, option);
+        res.cookie("token", sess.token, option);
+        res.cookie("tokentimestamp", sess.tokentimestamp, option);
+    } catch (exp) {
+        console.error(exp);
+    }
+
+    //redirect
+    res.goPage("/index");
 }
 
 exports.getRouterMap = function() {
     return [
         { url: "/login", view: "login", handle: renderLoginPage, postHandle: processLogin, needLogin:false },
-        { url: "/register", view: "register", handle: renderRegisterPage, needLogin:false }
+        { url: "/register", view: "register", handle: renderRegisterPage, postHandle: processRegister, needLogin:false }
     ];
 }
 
