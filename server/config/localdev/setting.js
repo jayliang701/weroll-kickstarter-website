@@ -8,6 +8,10 @@ module.exports = {
     host:"localhost",
     port:3000,
 
+    compress:{
+        api:true, //or false,  true -> use MsgPack,   false -> use json
+    },
+
     model: {
         /* mongodb connection config */
         db: {
