@@ -2,7 +2,18 @@
 var PATH = require("path");
 var FS = require("fs");
 
+var Utils = require("weroll/utils/Utils");
+
 var SERVICE_LIST = null;
+
+var getFunctionParameterName = Utils.getFunctionParameterName || function(func) {
+        var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+        var ARGUMENT_NAMES = /([^\s,]+)/g;var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+        var result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+        if(result === null)
+            result = [];
+        return result;
+    }
 
 function renderAPIDoc(req, res, output, user) {
     var done = function() {
@@ -50,7 +61,8 @@ function renderRoot(req, res, output, user) {
                 for (var key in service) {
                     var val = service[key];
                     if (typeof val != "function" || key.indexOf("$") == 0) continue;
-                    if (val.valueOf().toString().indexOf("(req, res,") > 0) {
+                    var funcArgs = getFunctionParameterName(val);
+                    if (funcArgs[0] == 'req' && funcArgs[1] == 'res') {
                         var security = service.config.security && service.config.security[key] ? service.config.security[key] : {};
                         var def = { name: service.config.name + "." + key, security:security, index:methods.length, desc:"", paramsDesc:{} };
                         methods.push(def);
