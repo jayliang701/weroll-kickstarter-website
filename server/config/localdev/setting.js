@@ -9,7 +9,7 @@ module.exports = {
     port:3000,
 
     compress:{
-        api:true, //or false,  true -> use MsgPack,   false -> use json
+        api:false, //or false,  true -> use MsgPack,   false -> use json
     },
 
     model: {

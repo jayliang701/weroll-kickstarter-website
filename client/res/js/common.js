@@ -127,7 +127,7 @@ function $checkIsBelowIE10() {
     return false;
 }
 
-function $checkBroswer() {
+function $checkBrowser() {
     if(navigator.userAgent.indexOf('Trident') > 0 && navigator.userAgent.indexOf('rv:11') > 0) {
         return "IE";
     }
@@ -500,6 +500,9 @@ function $callAPI(method, data, onSuccess, onError, showLoading) {
         url: API_GATEWAY,
         headers: {
             "Content-Type": "application/json; charset=UTF-8"
+        },
+        xhrFields : {
+            responseType : window.API_COMPRESS ? 'arraybuffer' : 'text'
         },
         data: JSON.stringify(params),
         success: function (data, status, xhr) {

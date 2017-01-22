@@ -124,7 +124,7 @@
                     "Content-Type": "application/json; charset=UTF-8"
                 },
                 xhrFields : {
-                    responseType : 'text'
+                    responseType : window.API_COMPRESS ? 'arraybuffer' : 'text'
                 },
                 data: JSON.stringify(params),
                 success: function (data, status, xhr) {
