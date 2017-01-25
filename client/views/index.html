@@ -10,10 +10,10 @@
 {% block content %}
 <div class="main">
     <h1>Index</h1>
-    <h2 style="font-weight: normal;">This is a website project.</h2>
+    <h2 style="font-weight: normal;">This is a website project. Current Time: {{now|moment_format('zh-cn', 'lll')}}</h2>
     <br>
     {% if user.isLogined %}
-    <p>Welcome! {{user.nickname}}</p>
+    <p>Welcome! {{user.nickname}}. </p>
     <br>
     <h3>Your Profile:</h3>
     <p>id: {{user.id}}</p>
