@@ -68,10 +68,6 @@ app.addTask(function(cb) {
         var Ecosystem = require("weroll/eco/Ecosystem");
         Ecosystem.init();
          */
-        /* setup WebSocket function if you need
-        var Realtime = require("weroll/web/Realtime");
-        Realtime.init({ port:"*" }, webApp.$server);
-        */
         cb();
     });
     //extend WebApp if you need
