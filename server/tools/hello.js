@@ -2,8 +2,6 @@
  * Created by Jay on 2016/10/24.
  */
 
-require("./__tools");
-
 var proc;
 
 exports.init = function(invoker) {
