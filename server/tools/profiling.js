@@ -1,20 +1,13 @@
 /**
  * Created by jay on 30/01/2017.
  */
-var Utils = require("weroll/utils/Utils");
 var Profiler = require("weroll/utils/Profiler");
-
-var proc;
-
-exports.init = function(invoker) {
-    proc = invoker;
-}
 
 exports.do = function(name, cmd) {
     var profiler = new Profiler({ name:name });
     if (cmd == "clean") {
         return profiler.clean(function(err) {
-            proc.done(err);
+            process.done(err);
         });
     }
     profiler.view(function(err, result) {
@@ -23,7 +16,7 @@ exports.do = function(name, cmd) {
             console.log(`avg request time: ${result.avg}ms`);
             console.log(`max request time: ${result.max}ms`);
         }
-        proc.done(err);
+        process.done(err);
     }, function(obj) {
         console.log(`${obj.target} ---> count: ${obj.count}     avg: ${obj.avg}ms     min: ${obj.min}ms     max: ${obj.max}ms`);
     });

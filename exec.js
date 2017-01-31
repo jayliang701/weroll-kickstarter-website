@@ -4,21 +4,17 @@
 var FS = require("fs");
 var PATH = require("path");
 
-var proc = {};
-proc.done = function(msg) {
-    if (Setting.model.db && Setting.model.db.name) {
-        Model.closeDB(Setting.model.db.name, function(err) {
-            if (msg) {
-                console.log(msg);
-            } else {
-                console.log('script is completed.');
-            }
-            setTimeout(process.exit, 500);
-
-        });
+process.done = function(msg) {
+    if (msg) {
+        if (msg instanceof Error) {
+            console.error(msg);
+        } else {
+            console.log(msg);
+        }
     } else {
-        setTimeout(process.exit, 500);
+        console.log('script is completed.');
     }
+    setTimeout(() => { process.kill(process.pid, 'SIGINT') }, 200);
 }
 
 var App = require("weroll/App");
@@ -46,7 +42,6 @@ app.run(function(err) {
         }
     }
     var JS = require(PATH.join(global.APP_ROOT, "server/tools/" + args[0] + ".js"));
-    JS.init(proc);
 
     args = args.splice(1);
     JS.do.apply(JS, args);

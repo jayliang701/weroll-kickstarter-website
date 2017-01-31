@@ -20,6 +20,7 @@ module.exports = function() {
         gender: { type:Number, default:1, optional:true },
         head: { type:String, optional:true },
         type: { type:Number, default:100 },
+        createTime: { type:Number, default:0 },
         lastLoginTime: { type:Number, default:0 },
         status: { type:Number, default:1 }
     }, { collection:COLLECTION_NAME, strict: false });
