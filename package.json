@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "weroll": "^1.0.21"
+    "weroll": "^1.0.23"
   },
   "devDependencies": {},
   "scripts": {
