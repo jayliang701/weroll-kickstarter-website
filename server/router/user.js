@@ -2,18 +2,18 @@
  * Created by Jay on 2016/5/20.
  */
 
-var Setting = global.SETTING;
-var Session = require("weroll/model/Session");
-var Utils = require("weroll/utils/Utils");
-var CODES = require("weroll/ErrorCodes");
+const Setting = global.SETTING;
+const Session = require("weroll/model/Session");
+const Utils = require("weroll/utils/Utils");
+const CODES = require("weroll/ErrorCodes");
 
-async function renderLoginPage(req, res, output, user) {
-    output({ });
+const renderLoginPage = async () => {
+    return { };
 }
 
-async function processLogin(req, res, output) {
-    var passport = { pwd:req.body.pwd };
-    var account = req.body.account;
+const processLogin = async (req, res) => {
+    let passport = { pwd:req.body.pwd };
+    let account = req.body.account;
     if (Utils.checkEmailFormat(account)) {
         passport.email = account;
     } else if (Utils.cnCellPhoneCheck(account)) {
@@ -22,65 +22,61 @@ async function processLogin(req, res, output) {
         passport.username = account;
     }
     try {
-        var user = await User.login(passport);
+        let user = await User.login(passport);
 
         user = user.toObject();
         user.extra = [ user.username, user.nickname, user.email || "", user.phone || "" ];
-        var sess = await Session.getSharedInstance().save(user);
+        let auth = await Session.getSharedInstance().save(user);
 
         //set cookies
-        var option = { path: Setting.session.cookiePath, expires: new Date(Date.now() + Setting.session.cookieExpireTime) };
-        res.cookie("userid", sess.userid, option);
-        res.cookie("token", sess.token, option);
-        res.cookie("tokentimestamp", sess.tokentimestamp, option);
+        let option = { path: Setting.session.cookiePath, expires: new Date(Date.now() + Setting.session.cookieExpireTime) };
+        res.cookie("authorization", auth, option);
     } catch (exp) {
-        return output({ err:"username or password is wrong." });
+        return { err:"username or password is wrong." };
     }
 
     //redirect
     res.goPage("/index");
 }
 
-async function renderRegisterPage(req, res, output, user) {
-    output({ });
+const renderRegisterPage = async () => {
+    return { };
 }
 
-async function processRegister(req, res, output) {
-    var doc = new User();
+const processRegister = async (req, res) => {
+    let doc = new User();
 
     try {
-        var username = req.body.username;
+        let username = req.body.username;
         doc.set("username", username);
 
-        var nickname = req.body.nickname;
+        let nickname = req.body.nickname;
         if (!String(nickname).hasValue()) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid nickname"));
         else doc.set("nickname", nickname);
 
-        var pwd = req.body.pwd;
+        let pwd = req.body.pwd;
         if (!pwd || pwd.length < 6) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid password. the length of password should be >= 6."));
         else doc.set("pwd", pwd);
 
-        var email = req.body.email;
+        let email = req.body.email;
         if (phone && !Utils.checkEmailFormat(email)) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid email"));
         else doc.set("email", email);
 
-        var phone = req.body.phone;
+        let phone = req.body.phone;
         if (phone && !Utils.cnCellPhoneCheck(phone)) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid phone"));
         else doc.set("phone", phone);
 
         doc = await doc.save();
     } catch (err) {
-        return output({ err:err });
+        return { err:err };
     }
     try {
-        var temp = doc.toObject();
+        let temp = doc.toObject();
         temp.extra = [ username, nickname, email || "", phone || "" ];
-        var sess = await Session.getSharedInstance().save(temp);
+        let auth = await Session.getSharedInstance().save(temp);
         //set cookies
-        var option = { path: Setting.session.cookiePath, expires: new Date(Date.now() + Setting.session.cookieExpireTime) };
-        res.cookie("userid", sess.userid, option);
-        res.cookie("token", sess.token, option);
-        res.cookie("tokentimestamp", sess.tokentimestamp, option);
+        let option = { path: Setting.session.cookiePath, expires: new Date(Date.now() + Setting.session.cookieExpireTime) };
+        res.cookie("authorization", auth, option);
     } catch (exp) {
         console.error(exp);
     }
@@ -89,12 +85,10 @@ async function processRegister(req, res, output) {
     res.goPage("/index");
 }
 
-function processLogout(req, res, output, user) {
+const processLogout = async (req, res, output, user) => {
     //clear cookie
-    var option = { path: Setting.session.cookiePath };
-    res.clearCookie("userid", option);
-    res.clearCookie("token", option);
-    res.clearCookie("tokentimestamp", option);
+    let option = { path: Setting.session.cookiePath };
+    res.clearCookie("authorization", option);
 
     //clear session
     Session.getSharedInstance().remove(user);

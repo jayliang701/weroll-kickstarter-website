@@ -2,10 +2,7 @@
  * Created by Jay on 2016/5/20.
  */
 
-var PATH = require("path");
-var FS = require("fs");
-
-function renderRoot(req, res, output, user) {
+const renderRoot = (req, res, output, user) => {
     var page = req.url.replace("/subpage/", "");
     output({ }, null, "subpage/" + page);
 }

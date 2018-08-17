@@ -1,8 +1,6 @@
-var Setting = global.SETTING;
-var Utils = require("weroll/utils/Utils");
 
-function renderIndexPage(req, res, output, user) {
-    output({ msg:"hello!" });
+const renderIndexPage = () => {
+    return { msg:"hello!" };
 }
 
 exports.getRouterMap = function() {
