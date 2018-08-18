@@ -7,25 +7,32 @@ exports.config = {
     enabled: true,
     security: {
         //@now 获得服务器当前时间 @format 时间格式,1 - 时间戳,2 - 字符串
-        "now":{ needLogin:false, checkParams:{ format:"int" } }
+        "now":{ needLogin:false, checkParams:{ format:"int" } },
+        //@info 查询当前注册用户数
+        "info":{ needLogin:false }
     }
 };
 
-var CODES = require("weroll/ErrorCodes");
+const CODES = require("weroll/ErrorCodes");
 
-exports.now = function(req, res, params) {
-    var format = params.format;
+exports.now = params => {
+    const { format } = params;
     if (format == 1 || format == 2) {
-        var now = new Date();
+        let time = new Date();
         if (format == 1) {
-            now = now.getTime();
+            time = time.getTime();
         } else {
-            now = now.toString();
+            time = time.toString();
         }
-        res.sayOK({ time:now });
+        return { time };
     } else {
-        res.sayError(CODES.REQUEST_PARAMS_INVALID, "invalid time format");
+        throw Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid time format");
     }
+}
+
+exports.info = async () => {
+    const num = await User.count({});
+    return { num };
 }
 
 

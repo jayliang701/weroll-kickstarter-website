@@ -1,11 +1,7 @@
-/**
- * Created by Jay on 14-5-4.
- */
 module.exports = {
 
     $VARS:{
         env:"localdev",
-        site:"http://localhost:3000",
         host:"localhost",
         port:3000,
         apiCompress:false,
@@ -28,10 +24,15 @@ module.exports = {
             port:27017,
             name:"weroll_website",
             option: {
-                driver:"mongoose"  //or "native"
+                driver:"mongoose",  //or "native"
+                server: {
+                    reconnectTries: Number.MAX_VALUE,
+                    poolSize: 5,
+                    socketOptions: { keepAlive: 120 }
+                }
             }
         },
-        /* redis connection config  */
+        /* redis connection config
         redis: {
             host:"127.0.0.1",
             port:6379,
@@ -40,14 +41,17 @@ module.exports = {
                 common: "weroll_common_"
             },
             ttl:24 * 60 * 60,  //sec,
-            pass:"${redisPassword}",
+            pass:"",
             maxLockTime:2 * 60,  //sec
             releaseLockWhenStart: true
         }
+        */
     },
 
     session: {
         /* user access session config. enable redis first */
+        secret:"your jwt secret",
+        storage:"mongodb",   //redis or mongodb
         onePointEnter:false,
         cookiePath:"/",
         cacheExpireTime:3 * 60,  //sec
@@ -84,7 +88,7 @@ module.exports = {
     },
     /* Ecosystem config
     ecosystem: {
-        name: "website",
+        name: "some weroll app name",
         port: 3001,
         servers : {
             "test" : {

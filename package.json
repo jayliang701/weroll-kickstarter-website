@@ -7,11 +7,11 @@
     "test": "test"
   },
   "dependencies": {
-    "weroll": "^1.3.9"
+     "weroll": "^1.5.3"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node main.js -env=localdev -debug"
   },
   "author": "Jay Liang",
   "license": "MIT"
