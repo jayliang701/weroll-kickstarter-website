@@ -32,7 +32,7 @@ module.exports = {
                 }
             }
         },
-        /* redis connection config 
+        /* redis connection config
         redis: {
             host:"127.0.0.1",
             port:6379,
@@ -45,7 +45,7 @@ module.exports = {
             maxLockTime:2 * 60,  //sec
             releaseLockWhenStart: true
         }
-         */
+        */
     },
 
     session: {
@@ -88,7 +88,7 @@ module.exports = {
     },
     /* Ecosystem config
     ecosystem: {
-        name: "mini",
+        name: "some weroll app name",
         port: 3001,
         servers : {
             "test" : {
