@@ -50,6 +50,7 @@ module.exports = function() {
                 const uuid = uuidv4();
                 data.set("_id", uuid);
                 data.set("pwd", md5(uuid + PASSWORD_SALT + data.get("pwd")));
+                next();
             }
         });
     });

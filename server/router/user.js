@@ -23,10 +23,10 @@ const processLogin = async (req, res) => {
     }
     try {
         let user = await User.login(passport);
-
         user = user.toObject();
-        user.extra = [ user.username, user.nickname, user.email || "", user.phone || "" ];
-        let auth = await Session.getSharedInstance().save(user);
+
+        let extra = { nickname: user.nickname };
+        let auth = await Session.getSharedInstance().save(user, extra);
 
         //set cookies
         let option = { path: Setting.session.cookiePath, expires: new Date(Date.now() + Setting.session.cookieExpireTime) };
@@ -46,23 +46,19 @@ const renderRegisterPage = async () => {
 const processRegister = async (req, res) => {
     let doc = new User();
 
+    let { username, nickname, pwd, email, phone } = req.body;
     try {
-        let username = req.body.username;
         doc.set("username", username);
 
-        let nickname = req.body.nickname;
         if (!String(nickname).hasValue()) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid nickname"));
         else doc.set("nickname", nickname);
 
-        let pwd = req.body.pwd;
         if (!pwd || pwd.length < 6) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid password. the length of password should be >= 6."));
         else doc.set("pwd", pwd);
 
-        let email = req.body.email;
-        if (phone && !Utils.checkEmailFormat(email)) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid email"));
+        if (email && !Utils.checkEmailFormat(email)) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid email"));
         else doc.set("email", email);
 
-        let phone = req.body.phone;
         if (phone && !Utils.cnCellPhoneCheck(phone)) throw (Error.create(CODES.REQUEST_PARAMS_INVALID, "invalid phone"));
         else doc.set("phone", phone);
 

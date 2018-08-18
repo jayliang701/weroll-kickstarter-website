@@ -99,7 +99,7 @@ function hashMapToArray(map, json, loopFunc) {
 var isIE = $checkIsIE();
 var IE_VER = 0;
 var isBelowIE10 = $checkIsBelowIE10();
-var broswerType = $checkBroswer();
+var broswerType = $checkBrowser();
 var isMobile = $checkIsMobile();
 
 function $checkIsIE() {
